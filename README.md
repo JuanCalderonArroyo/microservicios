@@ -5,10 +5,6 @@ Proyecto de contenedores PC2
 ![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
 
 # Instrucciones de uso
-Perfecto 👌
-Tu sección de instrucciones está muy bien estructurada; solo le hacía falta **un poco de pulido en redacción y formato** para que se vea más clara y fluida, especialmente si la pegarás en tu README.
-Aquí te dejo la **versión final lista para copiar y pegar** en la sección `# Instrucciones de uso` de tu README:
-
 ---
 
 # 🧭 Instrucciones de uso
@@ -149,12 +145,6 @@ Esta sección permite consultar los **últimos 50 registros de logs** generados 
 * Al seleccionar uno, se mostrarán en pantalla las últimas 50 líneas de sus logs, lo que facilita la depuración y el monitoreo del comportamiento del microservicio.
 
 ---
-
-✅ **Listo.** Con estos pasos, cualquier persona podrá descargar, instalar y usar tu plataforma sin problemas.
-
----
-
-¿Quieres que le añada numeración automática tipo `1️⃣ 2️⃣ 3️⃣` para que se vea más visual en el README o prefieres dejarlo como está ahora (más “técnico”)?
 
 # Ejemplos de solicitudes y respuestas esperadas:
 
