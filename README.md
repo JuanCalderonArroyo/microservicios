@@ -5,6 +5,156 @@ Proyecto de contenedores PC2
 ![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
 
 # Instrucciones de uso
+Perfecto 👌
+Tu sección de instrucciones está muy bien estructurada; solo le hacía falta **un poco de pulido en redacción y formato** para que se vea más clara y fluida, especialmente si la pegarás en tu README.
+Aquí te dejo la **versión final lista para copiar y pegar** en la sección `# Instrucciones de uso` de tu README:
+
+---
+
+# 🧭 Instrucciones de uso
+
+### 1. Requisitos previos
+
+Antes de comenzar, asegúrate de tener instalado en tu equipo:
+
+* 🐳 **Docker** (versión AMD64)
+* 🐍 **Python**
+* 🧑‍💻 **Visual Studio Code** (opcional)
+
+---
+
+### 2. 📥 Descargar el proyecto desde la web
+
+1. Ingresa al repositorio en GitHub desde tu navegador.
+2. Haz clic en el botón verde **“Code”** ubicado en la parte superior derecha.
+3. Selecciona la opción **“Download ZIP”**.
+4. Una vez descargado, **descomprime** el archivo ZIP en la ubicación que prefieras de tu computadora.
+5. Abre la carpeta del proyecto descomprimido para continuar con la instalación.
+
+---
+
+### 3. 📦 Instalar dependencias
+
+Ejecuta los siguientes comandos en la terminal para instalar las librerías necesarias:
+
+```bash
+pip install docker
+pip install flask
+```
+
+---
+
+### 4. 🚀 Ejecutar la aplicación
+
+1. Ingresa a la carpeta del proyecto:
+
+   ```bash
+   cd ROBLE2
+   ```
+2. Ejecuta la interfaz web:
+
+   ```bash
+   python web_ui.py
+   ```
+3. Si todo funciona correctamente, deberías ver un mensaje similar en la terminal:
+
+```
+ * Serving Flask app 'web_ui'
+ * Debug mode: on
+ WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8080
+ * Running on http://10.117.196.146:8080
+ Press CTRL+C to quit
+```
+
+---
+
+### 5. 🌐 Abrir la aplicación en el navegador
+
+Una vez ejecutado el servidor, abre tu navegador y entra a la siguiente dirección:
+
+👉 [http://10.117.196.146:8080](http://10.117.196.146:8080)
+
+Al cargar la página, verás un **panel lateral izquierdo** con las siguientes opciones:
+
+* 🏠 **Inicio**
+* 📄 **Listado**
+* ✍️ **Crear**
+* ⚙️ **Editar configuración**
+* 📜 **Ver logs**
+
+La función principal de esta página es realizar operaciones **CRUD** (Crear, Leer, Actualizar, Eliminar) sobre microservicios, donde cada uno se ejecuta dentro de un contenedor Docker.
+
+A continuación, se explica cada sección:
+
+---
+
+#### ✍️ 1. Crear
+
+En esta sección podrás **crear un nuevo microservicio**.
+
+* Se mostrará una caja de texto para ingresar el **nombre del microservicio**.
+* Debajo encontrarás un **editor de código** donde debes escribir **solo la función** que quieres que tenga el microservicio.
+* No es necesario escribir todo el código base: la aplicación lo genera automáticamente.
+
+El código base “quemado” es el siguiente:
+
+```python
+from flask import Flask, request, jsonify
+import requests
+app = Flask(__name__)
+
+@app.route("/")
+# Aquí va la función que escribas
+...
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
+```
+
+Una vez creada, la aplicación se encargará de **generar y desplegar el microservicio** dentro de un contenedor Docker.
+
+---
+
+#### 📄 2. Listado
+
+Aquí se muestra un **listado de todos los microservicios creados**, junto con su estado actual.
+Cada microservicio incluye tres botones con acciones diferentes:
+
+* 👁️ **Ver** → Permite visualizar el código actual del microservicio.
+* ✏️ **Editar código** → Abre un editor para modificar y actualizar el contenedor.
+* 🗑️ **Eliminar** → Elimina el microservicio y su contenedor Docker correspondiente.
+
+---
+
+#### ⚙️ 3. Editar configuración
+
+Aquí puedes **modificar el nombre y el puerto** de cualquier microservicio existente.
+
+* Primero se mostrará una lista de microservicios.
+* Al seleccionar uno, aparecerán dos campos:
+
+  * Uno para cambiar el **nombre**.
+  * Otro para modificar el **puerto**.
+* Al guardar, la configuración se actualiza automáticamente en el sistema.
+
+---
+
+#### 📜 4. Ver logs
+
+Esta sección permite consultar los **últimos 50 registros de logs** generados por cada contenedor Docker.
+
+* Se mostrará una lista de microservicios.
+* Al seleccionar uno, se mostrarán en pantalla las últimas 50 líneas de sus logs, lo que facilita la depuración y el monitoreo del comportamiento del microservicio.
+
+---
+
+✅ **Listo.** Con estos pasos, cualquier persona podrá descargar, instalar y usar tu plataforma sin problemas.
+
+---
+
+¿Quieres que le añada numeración automática tipo `1️⃣ 2️⃣ 3️⃣` para que se vea más visual en el README o prefieres dejarlo como está ahora (más “técnico”)?
 
 # Ejemplos de solicitudes y respuestas esperadas:
 
