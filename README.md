@@ -1,3 +1,3 @@
 # microservicios
 Proyecto de contenedores PC2
-<img width="284" height="177" alt="image" src="https://github.com/user-attachments/assets/2c857b89-2366-41d1-888c-0ad51cc54381" />
+![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
