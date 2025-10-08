@@ -1,2 +1,0 @@
-def saludar():
-    return jsonify({"mensaje": "Hola mundo"})
