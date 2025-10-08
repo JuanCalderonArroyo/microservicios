@@ -1,0 +1,251 @@
+/* ====== Variables de color ====== */
+:root {
+  --blue-dark: #0f172a;
+  --blue-mid: #1e3a8a;
+  --blue-accent: #2563eb;
+  --gray-bg: #f1f5f9;
+  --gray-panel: #f8fafc;
+  --text-dark: #0f172a;
+  --text-light: #f8fafc;
+  --ok: #22c55e;
+  --error: #ef4444;
+  --warn: #facc15;
+}
+
+/* ====== Reset ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ====== Fondo principal ====== */
+.connect-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-light);
+}
+
+/* ====== Tarjeta central ====== */
+.connect-card {
+  background: var(--gray-panel);
+  color: var(--text-dark);
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 400px;
+  position: relative;
+}
+
+/* ====== Ícono superior ====== */
+.icon {
+  font-size: 48px;
+  color: var(--blue-accent);
+  margin-bottom: 12px;
+}
+
+/* ====== Título y texto ====== */
+h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 15px;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* ====== Botones ====== */
+button {
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 12px 28px;
+  transition: all 0.3s ease;
+}
+
+/* --- Botón principal: conectar --- */
+.play-btn {
+  background: var(--blue-accent);
+  color: white;
+}
+
+.play-btn:hover {
+  background: #1d4ed8;
+}
+
+/* --- Botón secundario: levantar --- */
+.secondary-btn {
+  background: #38bdf8;
+  color: white;
+  margin-left: 10px;
+}
+
+.secondary-btn:hover {
+  background: #0ea5e9;
+}
+
+/* --- Botón deshabilitado --- */
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* ====== Grupo de botones ====== */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ====== Mensajes Flash ====== */
+.flash-messages {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.flash {
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* --- Colores según tipo --- */
+.flash.ok {
+  background: var(--ok);
+  color: white;
+}
+
+.flash.error {
+  background: var(--error);
+  color: white;
+}
+
+.flash.warn {
+  background: var(--warn);
+  color: #000;
+}
+
+/* ====== Animaciones ====== */
+.connect-card {
+  animation: pop 0.4s ease-out;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.connect-bg {
+  background: linear-gradient(135deg, #1e3a8a, #0f172a);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.connect-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.play-btn, .secondary-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 25px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.play-btn {
+  background-color: #22c55e;
+  color: white;
+}
+.play-btn:disabled {
+  background-color: #16a34a;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  background-color: #2563eb;
+  color: white;
+}
+
+.flash-messages {
+  margin-top: 15px;
+}
+.flash.ok { color: #22c55e; }
+.flash.error { color: #ef4444; }
+
+/* ====== Mensajes Flash ====== */
+.flash-messages {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.flash {
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: inline-block;
+  min-width: 250px;
+  font-weight: 500;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ✅ Éxito */
+.flash.ok {
+  background: var(--ok);
+  color: white;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+}
+
+/* ❌ Error */
+.flash.error {
+  background: var(--error);
+  color: white; /* antes estaba rojo, ahora blanco */
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+/* ⚠️ Advertencia */
+.flash.warn {
+  background: var(--warn);
+  color: #000;
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.5);
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
