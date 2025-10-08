@@ -186,67 +186,120 @@ Esta sección permite consultar los **últimos 50 registros de logs** generados 
 
   ## Ejemplo #3 (Implementación con Roble):
   
-  Este microservicio hace un getAll de una tabla que ya esté creada en Roble. El usuario, la contraseña, el ID del proyecto y el nombre de la tabla ya están en el codigo.
-  
+  Este microservicio hace un getAll de una tabla que ya esté creada en Roble.
+
   Este es el texto que se tiene que agregar en la sección de codigo al momento de crear el microservicio:
-
-    def main():
-      res1 = requests.post("https://roble-api.openlab.uninorte.edu.co/auth/probando_49357d021e/login", json={
-          "email": "yop@gmail.com",
-          "password": "Asdf1234@"
-      })
-      user_json = res1.json()
-      res = requests.get(
-      "https://roble-api.openlab.uninorte.edu.co/database/probando_49357d021e/read",
-      headers={"Authorization": f"Bearer {user_json.get('accessToken')}"},
-      params={"tableName": "tablita"}
-      )
-      return jsonify(res.json())
-
-  El microservicio generará un url así: http://localhost:5002/
-  Al hacer click a la url tal cual y como se genera en un inicio, el json que se espera de respuesta seria:
-  
-      [{"_id":"cT4ibrIo65eh","edad":20,"nombre":"Ana"},{"_id":"W5vwCvpWuvd-","edad":19,"nombre":"Vic"},{"_id":"V8brCgeC0sIb","edad":20,"nombre":"Gaby"}]
-  
-  Esta es la tabla que ya está creada en Roble:
-  <img width="1540" height="439" alt="image" src="https://github.com/user-attachments/assets/2dc48d23-4b75-4f7c-8afd-33a2da8ca556" />
-
-
-  ## Ejemplo #4 (Implementación con Roble, con paramentros):
-  
-  Este microservicio hace un getAll de una tabla que ya esté creada en Roble. En este ejemplo toca escribir en la url el usuario, la contraseña, el ID del proyecto y el nombre de la tabla.
-  
-  Este es el texto que se tiene que agregar en la sección de codigo al momento de crear el microservicio:
-
-    def main():
-      user = request.args.get("user", "")
-      password = request.args.get("password", "")
-      id = request.args.get("id", "")
-      tabla = request.args.get("tabla", "")
-      #probando_49357d021e
-      res1 = requests.post(f"https://roble-api.openlab.uninorte.edu.co/auth/{id}/login", json={
-          "email": user,
-          "password": password
-      })
-      user_json = res1.json()
-      res = requests.get(
-      f"https://roble-api.openlab.uninorte.edu.co/database/{id}/read",
-      headers={"Authorization": f"Bearer {user_json.get('accessToken')}"},
-      params={"tableName": tabla}
-      )
-      return jsonify(res.json())
-
-  El microservicio generará un url así: http://localhost:5003/.
-  En un inicio arrojará el siguiente json por falta de los parametros necesarios:
-  
-    {"message":"Cannot GET /read?tableName=","statusCode":404}
-  
-  Para poder correr adecuadamente este microservicio toca añadir a la url lo siguiente: un signo de pregunta seguido de user igual al usuario de roble, el simbolo &, password igual a la contraseña de roble, el simbolo &, id igual al id del proyecto donde esté la tabla que se desee leer, simbolo &, y por ultimo tabla igual al nombre de la tabla (urlbase+?user=yop@gmail.com&password=Asdf1234@&id=probando_49357d021e&tabla=tablita).
-  Luego de tener una url de este estilo, http://localhost:5003/?user=yop@gmail.com&password=Asdf1234@&id=probando_49357d021e&tabla=tablita ya se puede obtener el json esperado el cual seria en este caso:
-  
-    [{"_id":"cT4ibrIo65eh","edad":20,"nombre":"Ana"},{"_id":"W5vwCvpWuvd-","edad":19,"nombre":"Vic"},{"_id":"V8brCgeC0sIb","edad":20,"nombre":"Gaby"}]
     
-  En efecto, el json que se obtiene trae la información de la tabla que se especificó de roble
-  <img width="1531" height="439" alt="image" src="https://github.com/user-attachments/assets/ee1ee098-b395-4e19-b497-5095cbcbd931" />
+    def index():
+       return """
+       <!DOCTYPE html>
+       <html lang="es">
+       <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Microservicio Login</title>
+          <style>
+              body { font-family: Arial; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+              input, button { margin: 10px; padding: 10px; width: 250px; font-size: 16px; }
+              button { cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+              button:hover { background-color: #0056b3; }
+              #resultado { margin-top: 30px; width: 80%; max-width: 600px; white-space: pre-wrap; text-align: left; }
+          </style>
+       </head>
+       <body>
+           <h2>Microservicio Login + Consulta</h2>
+           <input type="text" id="user" placeholder="Correo electrónico" />
+           <input type="password" id="password" placeholder="Contraseña" />
+           <input type="text" id="id" placeholder="ID del proyecto (ej. probando_49357d021e)" />
+           <input type="text" id="tabla" placeholder="Nombre de la tabla (ej. usuarios)" />
+           <button onclick="enviar()">Enviar</button>
+           <div id="resultado"></div>
+     
+           <script>
+               async function enviar() {
+                   const datos = {
+                       user: document.getElementById("user").value,
+                       password: document.getElementById("password").value,
+                       id: document.getElementById("id").value,
+                       tabla: document.getElementById("tabla").value
+                   };
+     
+                   const res = await fetch("/procesar", {
+                       method: "POST",
+                       headers: { "Content-Type": "application/json" },
+                       body: JSON.stringify(datos)
+                   });
+     
+                   const data = await res.json();
+                   document.getElementById("resultado").textContent = JSON.stringify(data, null, 2);
+               }
+           </script>
+       </body>
+       </html>
+       """
+         
+    @app.route("/procesar", methods=["POST"])
+    def procesar():
+        data = request.get_json()
+        user = data.get("user", "")
+        password = data.get("password", "")
+        id = data.get("id", "")
+        tabla = data.get("tabla", "")
+     
+        try:
+            # Paso 1: login
+            res1 = requests.post(
+                f"https://roble-api.openlab.uninorte.edu.co/auth/{id}/login",
+                json={"email": user, "password": password}
+            )
+            user_json = res1.json()
+     
+            # Paso 2: lectura de datos
+            res2 = requests.get(
+                f"https://roble-api.openlab.uninorte.edu.co/database/{id}/read",
+                headers={"Authorization": f"Bearer {user_json.get('accessToken')}"},
+                params={"tableName": tabla}
+            )
+     
+            return jsonify(res2.json())
+     
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
+  El microservicio generará un url así: http://localhost:5000/
   
+  Al hacer click a la url, mostrará una pagina sencilla con 4 cajas de textos que son donde el usuario deberá ingresar, el correo de la cuenta, la contraseña, el ID del proyecto y el nombre de la tabla a la cual se le quiera hacer la lectura.
+  
+  Para este ejemplo se deben ingresar los siguientes valores:
+  
+  Correo: yop@gmail.com
+  
+  Contraseña: Asdf1234@
+  
+  ID proyecto: probando_49357d021e
+  
+  Nombre tabla: tablita
+  
+  Una vez ingresado estos valores se debe oprimir el botón azul que dice Enviar y abajo se mostrará el siguiente json:
+
+  [
+  {
+    "_id": "cT4ibrIo65eh",
+    "edad": 20,
+    "nombre": "Ana"
+  },
+  {
+    "_id": "W5vwCvpWuvd-",
+    "edad": 19,
+    "nombre": "Vic"
+  },
+  {
+    "_id": "V8brCgeC0sIb",
+    "edad": 20,
+    "nombre": "Gaby"
+  }
+]
+
+Como se puede evidenciar el json que se obtuvo muestra la información de la tabla que se tiene en roble en el proyecto y tabla que se especificó:
+
+<img width="1541" height="449" alt="image" src="https://github.com/user-attachments/assets/911e5803-837d-4829-9598-cc13e55d9b8f" />
