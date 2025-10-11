@@ -187,7 +187,7 @@ Esta sección permite consultar los **últimos 50 registros de logs** generados 
     def sumar():
       a = int(request.args.get("a", 0))
       b = int(request.args.get("b", 0))
-      return jsonify({"resultado": a + b})
+      return jsonify({f"El resultado de {a} + {b} es": a + b})
 
   El microservicio generará un url así: http://localhost:5001/
   Al hacer click a la url tal cual y como se genera en un inicio, el json que se espera de respuesta seria:
