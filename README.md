@@ -15,7 +15,7 @@ De esta manera, la plataforma ofrece una estructura flexible que facilita la com
 
 ✏️ Editar características de los microservicios existentes.
 
-🗑️ Eliminar microservicios obsoletos.
+🗑️ Eliminar microservicios.
 
 🔍 Probar y visualizar los endpoints disponibles en tiempo real.
 
