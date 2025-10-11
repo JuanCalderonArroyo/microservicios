@@ -9,15 +9,15 @@ Su propósito es permitir que los usuarios puedan crear, leer, actualizar y elim
 La arquitectura está diseñada para que cada microservicio sea independiente, además de que se encuentran diseñados para exponerse como un endpoint HTTP y devolver los resultados procesados en formato JSON.
 De esta manera, la plataforma ofrece una estructura flexible que facilita la comunicación entre servicios y permite una integración sencilla con otros sistemas o aplicaciones externas.
 
-⚙️ Funcionalidades principales
+* ⚙️ Funcionalidades principales
 
-📦 Registrar nuevos microservicios y definir su lógica de procesamiento.
+* 📦 Registrar nuevos microservicios y definir su lógica de procesamiento.
 
-✏️ Editar características de los microservicios existentes.
+* ✏️ Editar características de los microservicios existentes.
 
-🗑️ Eliminar microservicios.
+* 🗑️ Eliminar microservicios.
 
-🔍 Probar y visualizar los endpoints disponibles en tiempo real.
+* 🔍 Probar y visualizar los endpoints disponibles en tiempo real.
 
 # Diagrama de arquitectura
 ![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
