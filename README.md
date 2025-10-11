@@ -1,13 +1,29 @@
 # microservicios
 Proyecto de contenedores PC2
 
+# Descripción del Proyecto
+
+Este proyecto consiste en el desarrollo de una plataforma dinámica de microservicios desplegada mediante tecnologías de contenedores Docker.
+Su propósito es permitir que los usuarios puedan crear, leer, actualizar y eliminar (CRUD) microservicios de forma sencilla a través de una interfaz web interactiva, garantizando un entorno modular, escalable y completamente gestionable desde un único punto.
+
+La arquitectura está diseñada para que cada microservicio sea independiente, además de que se encuentran diseñados para exponerse como un endpoint HTTP y devolver los resultados procesados en formato JSON.
+De esta manera, la plataforma ofrece una estructura flexible que facilita la comunicación entre servicios y permite una integración sencilla con otros sistemas o aplicaciones externas.
+
+⚙️ Funcionalidades principales
+
+📦 Registrar nuevos microservicios y definir su lógica de procesamiento.
+
+✏️ Editar características de los microservicios existentes.
+
+🗑️ Eliminar microservicios obsoletos.
+
+🔍 Probar y visualizar los endpoints disponibles en tiempo real.
+
 # Diagrama de arquitectura
 ![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
 
 # Instrucciones de uso
 ---
-
-# 🧭 Instrucciones de uso
 
 ### 1. Requisitos previos
 
