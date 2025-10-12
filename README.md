@@ -61,7 +61,7 @@ pip install flask
 1. Ingresa a la carpeta del proyecto:
 
    ```bash
-   cd ROBLE2
+   cd ROBLE2/ROBLE2
    ```
 2. Ejecuta la interfaz web:
 
