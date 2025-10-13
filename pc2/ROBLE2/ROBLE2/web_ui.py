@@ -91,6 +91,8 @@ def levantar():
 
 
 # =================== Crear microservicio ===================
+import re
+
 @app.route("/create", methods=["GET", "POST"])
 def create():
     if not check_docker_connection():
@@ -99,10 +101,17 @@ def create():
 
     if request.method == "POST":
         nombre = request.form.get("nombre", "").strip()
-        sup_code = """from flask import Flask, request, jsonify\nimport requests\napp = Flask(__name__)\n@app.route("/")\n"""
         code = request.form.get("code", "")
+
+        # 🔒 Validar nombre: solo letras minúsculas y números, sin espacios ni caracteres especiales
+        if not re.match(r'^[a-z0-9]+$', nombre):
+            flash("❌ El nombre solo puede contener letras minúsculas y números, sin espacios ni caracteres especiales.", "error")
+            return redirect(url_for("create"))
+
+        sup_code = """from flask import Flask, request, jsonify\nimport requests\napp = Flask(__name__)\n@app.route("/")\n"""
         inf_code = """\nif __name__ == "__main__":\n\tapp.run(host="0.0.0.0", port=8000)"""
         code = sup_code + code + inf_code
+
         if not nombre or not code:
             flash("❌ Nombre y código son obligatorios.", "error")
             return redirect(url_for("create"))
@@ -118,11 +127,11 @@ def create():
             save_code(result["name"], code, result["port"])
             flash(f"✅ Microservicio '{nombre}' desplegado en el puerto {result['port']}.", "ok")
             return redirect(url_for("list_view"))
+
         flash("❌ Error al desplegar microservicio.", "error")
 
     servicios = list_microservices()
     return render_template("index.html", view="create", servicios=servicios, connected=True)
-
 
 # =================== Listar microservicios ===================
 @app.route("/list")
