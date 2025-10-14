@@ -84,9 +84,10 @@ pip install flask
 
 ### 5. 🌐 Abrir la aplicación en el navegador
 
-Una vez ejecutado el servidor, abre tu navegador y entra a la siguiente dirección:
+Una vez ejecutado el servidor, oprime cualquier de las dos direcciones web que salen en la terminal para acceder al gestor de microservicios:
 
-👉 [http://10.117.196.146:8080](http://10.117.196.146:8080)
+<img width="1128" height="204" alt="image" src="https://github.com/user-attachments/assets/b5a103ff-c07e-4524-a953-c7011a078d91" />
+
 
 Al cargar la página, verás un **panel lateral izquierdo** con las siguientes opciones:
 
