@@ -24,7 +24,18 @@ def save_code(service_id, code, port):
 def get_code(service_id):
     """Devuelve el código de un microservicio por su ID"""
     data = _load_data()
-    service = data.get(service_id, None)
+    service = data.get(service_id)
+
+    # 🚨 Si no existe en el JSON, devolvemos None para evitar el error
+    if service is None:
+        print(f"[WARN] El servicio {service_id} no está en data.json")
+        return None
+
+    # Si existe pero no tiene campo "code"
+    if "code" not in service:
+        print(f"[WARN] El servicio {service_id} no tiene código almacenado")
+        return None
+
     return service["code"]
 
 def get_port(service_id):
@@ -36,3 +47,4 @@ def get_port(service_id):
 def get_codes():
     """Devuelve todos los microservicios guardados"""
     return _load_data()
+
