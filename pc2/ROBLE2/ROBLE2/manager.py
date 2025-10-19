@@ -489,3 +489,37 @@ def proxy_to_microservice(service_name: str, endpoint: str):
     except Exception as e:
         print(f"[DEBUG] Error al conectar con {service_name}: {e}")
         return jsonify({"error": f"Error al conectar con {service_name}", "detalle": str(e)}), 502
+def resync_services():
+    print("🔍 [DEBUG] Iniciando resync_services()...")
+    client = get_client()
+    if not client:
+        print("⚠️ [DEBUG] Docker client no disponible.")
+        return {"error": "Docker no disponible."}
+
+    data = {}
+    for c in client.containers.list():
+        print(f"➡️ Revisando contenedor: {c.name}")
+        if c.name.startswith("ms-"):
+            try:
+                print(f"   - Atributos: {c.attrs['NetworkSettings']}")
+                port = c.attrs["NetworkSettings"]["Ports"]["8000/tcp"][0]["HostPort"]
+                service_folder = f"./services/{c.name}"
+                code = get_code_from_folder(service_folder)
+                print(f"   - Código leído: {len(code)} caracteres")
+                data[c.name] = {"code": code, "port": port}
+            except Exception as e:
+                print(f"❌ Error al sincronizar {c.name}: {e}")
+
+    _save_data(data)
+    print(f"✅ [DEBUG] Sincronización completada: {list(data.keys())}")
+    return {"status": "re-synced", "services": list(data.keys())}
+
+
+def get_code_from_folder(folder):
+    """Lee el código del microservicio directamente desde el archivo .py"""
+    for file in os.listdir(folder):
+        if file.endswith(".py") and file != "__init__.py":
+            with open(os.path.join(folder, file), "r") as f:
+                return f.read()
+    return ""
+
