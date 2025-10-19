@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gestor de Microservicios</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <!-- Sidebar azul moderna -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Microservicios</h2>
+      </div>
+      <nav class="nav-menu">
+        <ul>
+          <li>
+            <a href="{{ url_for('home') }}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#fff"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 3l8 8h-3v9h-10v-9h-3z" />
+              </svg>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('list_view') }}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#fff"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M3 13h2v-2h-2v2zm0-8v2h2v-2h-2zm0 16h2v-2h-2v2zm4 0h14v-2h-14v2zm0-8h14v-2h-14v2zm0-8v2h14v-2h-14z"
+                />
+              </svg>
+              <span>Listado</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('create') }}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#fff"
+                viewBox="0 0 24 24"
+              >
+                <path d="M19 13h-6v6h-2v-6h-6v-2h6v-6h2v6h6v2z" />
+              </svg>
+              <span>Crear</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('config_view') }}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#fff"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 8a4 4 0 100 8 4 4 0 000-8zm0-5c.552 0 1 .448 1 1v1.09a7.002 7.002 0 015.657 5.657H20c.552 0 1 .448 1 1s-.448 1-1 1h-1.09a7.002 7.002 0 01-5.657 5.657V20c0 .552-.448 1-1 1s-1-.448-1-1v-1.09a7.002 7.002 0 01-5.657-5.657H4c-.552 0-1-.448-1-1s.448-1 1-1h1.09A7.002 7.002 0 0110.747 5.09V4c0-.552.448-1 1-1z"
+                />
+              </svg>
+              <span>Editar configuración</span>
+            </a>
+          </li>
+          <li>
+            <a href="{{ url_for('logs') }}">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#fff"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M3 3h18v2H3V3zm2 4h14v2H5V7zm-2 4h18v2H3v-2zm2 4h14v2H5v-2zm-2 4h18v2H3v-2z"
+                />
+              </svg>
+              <span>Ver logs</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="docker-status">🟢 Conectado a Docker correctamente</p>
+      </div>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="main-area">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-wrap">
+        {% for cat, msg in messages %}
+        <div class="flash {{cat}} flash-animate">{{ msg }}</div>
+        {% endfor %}
+      </div>
+      <script>
+        setTimeout(() => {
+          document
+            .querySelectorAll(".flash-animate")
+            .forEach((el) => el.remove());
+        }, 4000);
+      </script>
+      {% endif %} {% endwith %}
+
+      <!-- ================= HOME ================= -->
+      {% if view == "home" %} {% if connected %} {% if not levantados %}
+      <div class="home-top-bar">
+        <div class="alert-info">
+          <p>
+            🐋 Docker está conectado, pero aún no se han levantado tus
+            microservicios guardados.
+          </p>
+          <form
+            action="{{ url_for('levantar') }}"
+            method="post"
+            style="display: inline"
+          >
+            <button type="submit" class="play-btn">
+              🚀 Levantar Microservicios
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endif %} {% if levantados %}
+      <div class="home-top-bar">
+        <div class="alert-ok">
+          <p>
+            ✅ Todos los microservicios están levantados y listos para usarse.
+          </p>
+        </div>
+      </div>
+      {% endif %} {% endif %}
+
+      <section class="panel">
+        <h1>Bienvenido</h1>
+        <p>Gestiona tus microservicios fácilmente desde este panel.</p>
+      </section>
+
+      <!-- ================= LISTADO ================= -->
+      {% elif view == "list" %}
+      <section class="panel">
+        <h1>Listado de Microservicios</h1>
+        {% if servicios %}
+        <div class="card-list">
+          {% for s in servicios %}
+          <div
+            class="service-card {% if s['status'] == 'running' %}running{% else %}exited{% endif %}"
+          >
+            <div class="service-header">
+              <h3>{{ s["nombre"] }}</h3>
+              {% if s["status"] == "running" %}
+              <span class="status-tag running">🟢 En ejecución</span>
+              {% else %}
+              <span class="status-tag exited">🔴 Detenido</span>
+              {% endif %}
+            </div>
+
+            <div class="service-body">
+              <p><strong>ID:</strong> {{ s["id"] }}</p>
+              <p>
+                <strong>Puerto:</strong> {{ s["puerto"] if s["puerto"] != "N/A"
+                else "—" }}
+              </p>
+              <p>
+                <strong>URL:</strong>
+                {% if s["url base"] != "N/A" %}
+                <a href="{{ s['url base'] }}" target="_blank"
+                  >{{ s["url base"] }}</a
+                >
+                {% else %}
+                <span class="no-url">Sin conexión</span>
+                {% endif %}
+              </p>
+            </div>
+
+            <div class="service-actions">
+              <a
+                class="btn blue"
+                href="{{ url_for('view_code') }}?id={{ s['id'] }}&nombre={{ s['nombre'] }}"
+                >Ver</a
+              >
+              <a
+                class="btn green"
+                href="{{ url_for('edit') }}?id={{ s['id'] }}&nombre={{ s['nombre'] }}"
+                >Editar código</a
+              >
+              <form
+                action="{{ url_for('delete') }}"
+                method="post"
+                class="inline"
+              >
+                <input type="hidden" name="id" value="{{ s['id'] }}" />
+                <input type="hidden" name="nombre" value="{{ s['nombre'] }}" />
+                <button class="btn red" type="submit">Eliminar</button>
+              </form>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p>No hay microservicios disponibles.</p>
+        {% endif %}
+      </section>
+
+      <!-- ================= CREAR ================= -->
+      {% elif view == "create" %}
+      <div class="create-container contenedor-crear">
+        <section class="form-panel">
+          <h1>Crear microservicio</h1>
+          <form method="post" class="stack">
+            <label>Nombre del microservicio</label>
+            <input name="nombre" placeholder="Ej: facturacion" required />
+            <label>Código:</label>
+            <div class="code-editor-wrapper">
+              <textarea
+                name="code"
+                rows="15"
+                placeholder="Pega aquí tu código Python"
+                required
+              ></textarea>
+            </div>
+            <button type="submit">🚀 Desplegar</button>
+          </form>
+        </section>
+
+        <aside class="summary-panel">
+          <h2>Resumen de Microservicios</h2>
+          {% if servicios %}
+          <div class="summary-list">
+            {% for s in servicios %}
+            <div class="summary-card">
+              {% if s["status"] == "running" %}
+              <span class="status-dot running">🟢</span>
+              {% else %}
+              <span class="status-dot stopped">🔴</span>
+              {% endif %}
+              <div class="summary-info">
+                <a
+                  href="{{ url_for('view_code') }}?id={{ s['id'] }}&nombre={{ s['nombre'] }}"
+                  class="summary-name"
+                >
+                  {{ s['nombre'] }}
+                </a>
+                <p class="summary-id">ID: {{ s['id'] }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No hay microservicios en ejecución.</p>
+          {% endif %}
+        </aside>
+      </div>
+
+      <!-- ================= CONFIG ================= -->
+      {% elif view == "config" %}
+      <div class="create-container contenedor-config">
+        <aside class="summary-panel">
+          <h2>Selecciona microservicio</h2>
+          {% if servicios %}
+          <div class="summary-list">
+            {% for s in servicios %}
+            <div class="summary-card">
+              <span
+                class="status-dot {% if s['status']=='running' %}running{% else %}stopped{% endif %}"
+                >●</span
+              >
+              <div class="summary-info">
+                <a
+                  href="{{ url_for('config_view', id=s['id'], nombre=s['nombre']) }}"
+                  class="summary-name"
+                >
+                  {{ s['nombre'] }}
+                </a>
+
+                <p class="summary-id">ID: {{ s['id'] }}</p>
+                <p class="summary-port">
+                  Puerto: {{ s['puerto'] if s['puerto'] != 'N/A' else '—' }}
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No hay microservicios.</p>
+          {% endif %}
+        </aside>
+
+        <section class="form-panel">
+          <h1>Editar configuración</h1>
+          {% if sid %}
+          <p><strong>ID:</strong> {{ sid.split('-')[1] }}</p>
+          <p><strong>Nombre actual:</strong> {{ sid.split('-')[-1] }}</p>
+          <p><strong>Puerto actual:</strong> {{ puerto }}</p>
+          <form method="post" class="stack">
+            <h3>Cambiar nombre</h3>
+            <input type="hidden" name="action" value="rename" />
+            <label>Nuevo nombre:</label>
+            <input
+              type="text"
+              name="new_name"
+              placeholder="Nuevo nombre..."
+              required
+            />
+            <button type="submit" class="btn blue">Guardar nombre</button>
+          </form>
+
+          <form method="post" class="stack" style="margin-top: 20px">
+            <h3>Cambiar puerto</h3>
+            <input type="hidden" name="action" value="port" />
+            <label>Nuevo puerto (5000–6000):</label>
+            <input
+              type="number"
+              name="new_port"
+              min="5000"
+              max="6000"
+              required
+            />
+            <button type="submit" class="btn green">Guardar puerto</button>
+          </form>
+          {% else %}
+          <p>Selecciona un microservicio para editar.</p>
+          {% endif %}
+        </section>
+      </div>
+
+      <!-- ================= LOGS ================= -->
+      {% elif view == "logs" %}
+      <div class="create-container contenedor-logs">
+        <aside class="summary-panel">
+          <h2>Selecciona microservicio</h2>
+          {% if servicios %}
+          <div class="summary-list">
+            {% for s in servicios %}
+            <div class="summary-card">
+              <span
+                class="status-dot {% if s['status']=='running' %}running{% else %}stopped{% endif %}"
+                >●</span
+              >
+              <div class="summary-info">
+                <a
+                  href="{{ url_for('logs', id=s['id'], nombre=s['nombre']) }}"
+                  class="summary-name"
+                >
+                  {{ s['nombre'] }}
+                </a>
+                <p class="summary-id">ID: {{ s['id'] }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No hay microservicios.</p>
+          {% endif %}
+        </aside>
+
+        <section class="form-panel logs-panel">
+          <h1>Logs</h1>
+          {% if sid %}
+          <pre class="logs-console">{{ logs }}</pre>
+          {% else %}
+          <p>Selecciona un microservicio para ver sus logs.</p>
+          {% endif %}
+        </section>
+      </div>
+
+      <!-- ================= VIEW ================= -->
+      {% elif view == "view" %}
+      <section class="panel">
+        <h1>Código: {{ sid.split('-')[-1] }}</h1>
+        <pre class="code">{{ code }}</pre>
+      </section>
+
+      <!-- ================= EDIT ================= -->
+      {% elif view == "edit" %}
+      <section class="panel edit-panel">
+        <h1 class="edit-title">Editar código: {{ sid.split('-')[2] }}</h1>
+        <p class="edit-id">ID: {{ sid.split('-')[1] }}</p>
+        <form method="post" class="stack">
+          <label>Nuevo código:</label>
+          <textarea name="code" rows="18" required>{{ code }}</textarea>
+          <button type="submit">Guardar nuevo código</button>
+        </form>
+      </section>
+
+      {% endif %}
+    </main>
+  </body>
+</html>

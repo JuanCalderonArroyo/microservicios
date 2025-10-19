@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  roble-admin:
+    build: ./ROBLE2/ROBLE2
+    container_name: roble-admin
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - FLASK_ENV=development
+    restart: always
+    networks:
+      - pc2_micro_net  # 👈 Asegúrate de que coincida con la red donde están tus microservicios
+
+networks:
+  pc2_micro_net:
+    external: true  # 👈 Importante: indica que ya existe, no crear una nueva
