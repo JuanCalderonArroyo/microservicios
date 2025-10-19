@@ -32,7 +32,7 @@ Aquí tienes una versión **actualizada y profesional** de tu sección de **Inst
 
 ---
 
-## 🧩 1. Requisitos previos
+## 1. Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalado en tu equipo:
 
@@ -54,11 +54,12 @@ Antes de comenzar, asegúrate de tener instalado en tu equipo:
 
 1. Abre una **terminal** en la raíz del proyecto (donde está el archivo `docker-compose.yml`).
 
-2. Ejecuta el siguiente comando para construir e iniciar el contenedor:
+2. Ejecuta el siguiente comando para construir e iniciar el contenedor (solo la primera vez):**
 
-   ```bash
-   docker compose up -d
-   ```
+```bash
+ docker compose up --build -d
+```
+*(En ejecuciones posteriores puedes usar simplemente `docker compose up -d` para iniciarlo más rápido.)*
 
    Esto:
 
