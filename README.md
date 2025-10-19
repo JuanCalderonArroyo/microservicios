@@ -22,72 +22,72 @@ De esta manera, la plataforma ofrece una estructura flexible que facilita la com
 # Diagrama de arquitectura
 ![Imagen de WhatsApp 2025-10-06 a las 21 41 05_1b943792](https://github.com/user-attachments/assets/37b143c2-6844-4f62-84ac-ed7dfd5ab7e9)
 
-# Instrucciones de uso
+Perfecto 🔥 ahora que tu proyecto ya corre dentro de su propio **contenedor Docker**, las instrucciones pueden simplificarse muchísimo — ya **no necesitas instalar Python ni Flask manualmente**, ni ejecutar el `web_ui.py` directamente.
+
+Aquí tienes una versión **actualizada y profesional** de tu sección de **Instrucciones de uso**, adaptada al nuevo enfoque:
+
 ---
 
-### 1. Requisitos previos
+# Instrucciones de uso 
+
+---
+
+## 🧩 1. Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalado en tu equipo:
 
-* 🐳 **Docker** (versión AMD64)
-* 🐍 **Python**
-* 🧑‍💻 **Visual Studio Code** (opcional)
+**Docker Desktop** (recomendado, versión AMD64 o ARM según tu sistema)
+**Visual Studio Code** (opcional, si quieres explorar o editar el código)
 
 ---
 
-### 2. 📥 Descargar el proyecto desde la web
+## 2. Descargar el proyecto
 
-1. Ingresa al repositorio en GitHub desde tu navegador.
-2. Haz clic en el botón verde **“Code”** ubicado en la parte superior derecha.
-3. Selecciona la opción **“Download ZIP”**.
-4. Una vez descargado, **descomprime** el archivo ZIP en la ubicación que prefieras de tu computadora.
-5. Abre la carpeta del proyecto descomprimido para continuar con la instalación.
-
----
-
-### 3. 📦 Instalar dependencias
-
-Ejecuta los siguientes comandos en la terminal para instalar las librerías necesarias:
-
-```bash
-pip install docker
-pip install flask
-```
+1. Ingresa al repositorio en **GitHub**.
+2. Haz clic en el botón verde **“Code”** (arriba a la derecha).
+3. Selecciona **“Download ZIP”** y descomprime el archivo donde prefieras.
+4. Abre la carpeta del proyecto descomprimido.
 
 ---
 
-### 4. 🚀 Ejecutar la aplicación
+## 3. Iniciar el proyecto
 
-1. Ingresa a la carpeta del proyecto:
+1. Abre una **terminal** en la raíz del proyecto (donde está el archivo `docker-compose.yml`).
+
+2. Ejecuta el siguiente comando para construir e iniciar el contenedor:
 
    ```bash
-   cd ROBLE2/ROBLE2
+   docker compose up -d
    ```
-2. Ejecuta la interfaz web:
+
+   Esto:
+
+   * Construirá la imagen del contenedor si no existe.
+   * Levantará el servicio principal (`roble-admin`).
+   * Creará la red interna `micro_net` para conectar los microservicios.
+
+3. Verifica que esté corriendo correctamente con:
 
    ```bash
-   python web_ui.py
+   docker ps
    ```
-3. Si todo funciona correctamente, deberías ver un mensaje similar en la terminal:
 
-```
- * Serving Flask app 'web_ui'
- * Debug mode: on
- WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:8080
- * Running on http://10.117.196.146:8080
- Press CTRL+C to quit
-```
+   Si ves algo como esto, ¡todo está bien! ✅
+
+   ```
+   CONTAINER ID   IMAGE          NAME           STATUS         PORTS
+   a1b2c3d4e5f6   roble-admin    roble-admin    Up 5 seconds   0.0.0.0:8080->8080/tcp
+   ```
 
 ---
 
-### 5. 🌐 Abrir la aplicación en el navegador
+## 🌐 4. Acceder a la aplicación
 
-Una vez ejecutado el servidor, oprime cualquier de las dos direcciones web que salen en la terminal para acceder al gestor de microservicios:
+Una vez iniciado el contenedor, abre tu navegador y entra a:
 
-<img width="1128" height="204" alt="image" src="https://github.com/user-attachments/assets/b5a103ff-c07e-4524-a953-c7011a078d91" />
+👉 [http://localhost:8080](http://localhost:8080)
 
+Allí podrás usar la **interfaz web** 
 
 Al cargar la página, verás un **panel lateral izquierdo** con las siguientes opciones:
 
