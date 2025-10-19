@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from manager import (
     deploy_microservice, list_microservices, stop_microservice,
     redeploy_microservice, deploy_from_store, validate_user_code,
-    rename_microservice, change_microservice_port, ver_logs
+    rename_microservice, change_microservice_port, ver_logs,resync_services
 )
+
+
 from store import save_code, get_codes, get_code, _load_data
 import docker
 
@@ -23,6 +25,7 @@ def check_docker_connection():
 
 # =================== Levantar microservicios guardados ===================
 def levantar_microservicios_guardados():
+    resync_services()
     servicios_guardados = get_codes()
     if not servicios_guardados:
         return [], [], "ℹ️ No hay microservicios guardados para levantar."
